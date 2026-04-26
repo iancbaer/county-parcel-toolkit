@@ -2,7 +2,11 @@
 
 Developer-first tools for discovering, downloading, and normalizing public county parcel and assessor data.
 
-This project is intentionally **not** a lead-generation or outreach tool. It does not bundle personal data, enrichment providers, targeting logic, DNC workflows, or outreach automation.
+It normalizes parcel data. If someone's smart, they'll figure out why it's useful.
+
+## Project definition
+
+See `docs/PROJECT_DEFINITION.md` for the full product definition, MVP scope, and roadmap.
 
 ## Why
 
@@ -67,11 +71,10 @@ The initial common schema is deliberately small:
 - assessed_value
 - acreage
 
-## Public-data and privacy stance
+## Public-data stance
 
-- Do not commit downloaded parcel/person records.
+- Do not commit downloaded records.
 - Keep source definitions, schemas, and code public.
-- Keep enrichment, scoring, targeting, and outreach workflows out of this repo.
 - Respect source terms, rate limits, robots policies, and local law.
 
 ## Roadmap

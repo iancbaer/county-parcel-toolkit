@@ -2,9 +2,9 @@
 
 > For Hermes: Use test-driven-development for every behavior change.
 
-Goal: Build a public, developer-first toolkit for downloading and normalizing public parcel/assessor records without lead-generation or outreach features.
+Goal: Build a public, developer-first toolkit for downloading and normalizing public parcel/assessor records.
 
-Architecture: A small Python package with source-specific adapters, a common normalization layer, and a CLI. Keep downloaded data out of git. Keep public code focused on public-data plumbing only.
+Architecture: A small Python package with source-specific adapters, a common normalization layer, and a CLI. Keep downloaded data out of git. Keep the code focused on public-data plumbing.
 
 Tech Stack: Python 3.10+, stdlib-first HTTP/CSV/JSON, pytest for tests.
 
@@ -37,4 +37,4 @@ Tech Stack: Python 3.10+, stdlib-first HTTP/CSV/JSON, pytest for tests.
 
 ## Boundary
 
-Do not add enrichment, targeting, lead scoring, DNC workflows, or outreach automation to the public repo. Those belong in private ParcelSearch Lead Engine work.
+Keep the repository centered on repeatable public-data ingestion, normalization, tests, and docs.
