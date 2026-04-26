@@ -11,9 +11,11 @@ build/
 .venv/
 venv/
 
-# Local data exports - do not commit parcel/person data
+# Local data exports - do not commit downloaded records
 data/
 exports/
+scratch/
+text_*.json
 *.csv
 *.geojson
 *.parquet
