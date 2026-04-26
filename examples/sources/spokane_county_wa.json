@@ -1,15 +1,105 @@
 {
   "name": "Spokane County, WA parcels",
   "source_type": "arcgis_feature_server",
-  "url": "https://example.invalid/arcgis/rest/services/Parcels/FeatureServer/0",
+  "url": "https://services1.arcgis.com/ozNll27nt9ZtPWOn/arcgis/rest/services/Parcels/FeatureServer/0",
+  "source_notes": [
+    "The public Parcels FeatureServer is intentionally thin: parcel, site address/city, acreage, and geometry fields.",
+    "Richer assessor data is published as separate ArcGIS Hub item downloads under owner GISspokane. Join those files back to parcel records on the parcel field.",
+    "Useful discovery query: https://www.arcgis.com/sharing/rest/search?f=json&q=owner%3AGISspokane%20%28parcel%20OR%20parcels%20OR%20assessor%20OR%20taxpayer%20OR%20value%20OR%20residential%29&num=100"
+  ],
   "field_map": {
-    "parcel_id": ["PARCEL_ID", "PIN", "APN"],
-    "owner": ["OWNER", "OWNER_NAME"],
-    "situs_address": ["SITUS_ADDRESS", "SITE_ADDR", "PROPERTY_ADDRESS"],
-    "mailing_address": ["MAIL_ADDRESS", "MAILING_ADDRESS"],
-    "land_use": ["LAND_USE", "USE_CODE"],
-    "year_built": ["YEAR_BUILT", "YR_BUILT"],
-    "assessed_value": ["ASSESSED_VALUE", "TOTAL_VALUE"],
-    "acreage": ["ACRES", "ACREAGE"]
-  }
+    "parcel_id": ["parcel"],
+    "owner": [],
+    "situs_address": ["site_addr", "site_address"],
+    "mailing_address": [],
+    "land_use": ["prop_use_desc"],
+    "year_built": [],
+    "assessed_value": ["mkt_total", "taxable_reg"],
+    "acreage": ["acreage"]
+  },
+  "enrichment_sources": [
+    {
+      "name": "property_info",
+      "arcgis_item_id": "3912e26a8e0840538e17712275a444ec",
+      "arcgis_download_url": "https://www.arcgis.com/sharing/rest/content/items/3912e26a8e0840538e17712275a444ec/data",
+      "format": "zip containing pipe-delimited property_info.txt and property_info.xlsx",
+      "join_key": "parcel",
+      "useful_fields": [
+        "parcel",
+        "prop_type",
+        "site_address",
+        "site_str_nbr",
+        "site_str_dir",
+        "site_str_name",
+        "site_str_type",
+        "site_apartment",
+        "city",
+        "status",
+        "tca",
+        "prop_use_desc",
+        "size",
+        "uom",
+        "cycle_num"
+      ]
+    },
+    {
+      "name": "value_info",
+      "arcgis_item_id": "fcb474736d0a4a5487893c5e56495b2f",
+      "arcgis_download_url": "https://www.arcgis.com/sharing/rest/content/items/fcb474736d0a4a5487893c5e56495b2f/data",
+      "format": "zip containing pipe-delimited value_info.txt and value_info.xlsx",
+      "join_key": "parcel",
+      "row_selection": "Use the latest tax_year per parcel for current normalized value fields.",
+      "useful_fields": [
+        "parcel",
+        "tax_year",
+        "tax_code_area",
+        "prop_use_code",
+        "prop_use_desc",
+        "mkt_value_land",
+        "mkt_value_impvt",
+        "new_constr",
+        "mkt_total",
+        "pers_prop_assd_value",
+        "taxable_reg"
+      ]
+    },
+    {
+      "name": "taxpayer_info",
+      "arcgis_item_id": "f0e09368e2ac4d458b16436973d77104",
+      "arcgis_download_url": "https://www.arcgis.com/sharing/rest/content/items/f0e09368e2ac4d458b16436973d77104/data",
+      "format": "Microsoft Excel",
+      "join_key": "parcel",
+      "usage_note": "Spokane County's ArcGIS Hub disclaimer cites RCW 42.56.070(8). That public-records provision governs agency disclosure of lists of individuals requested for commercial purposes; this source definition simply supports joining taxpayer/owner data to public parcel records while preserving source metadata.",
+      "useful_fields": [
+        "parcel",
+        "taxpayer",
+        "address_1",
+        "address_2",
+        "city",
+        "state",
+        "zip",
+        "country",
+        "role_percentage",
+        "in_care_of"
+      ]
+    },
+    {
+      "name": "residential_parcel_floor_information",
+      "arcgis_item_id": "3ffc682a258247068a4899d8003c3f0d",
+      "arcgis_download_url": "https://www.arcgis.com/sharing/rest/content/items/3ffc682a258247068a4899d8003c3f0d/data",
+      "format": "zip containing pipe-delimited Residential_Parcel_Floor_Information text and spreadsheet files",
+      "join_key": "parcel",
+      "aggregation": "Aggregate by parcel for total square feet, finished area, bedrooms, and bathrooms.",
+      "useful_fields": [
+        "parcel",
+        "bldg_nbr",
+        "floor",
+        "sq_ft",
+        "fin_area",
+        "bedrooms",
+        "bathrooms",
+        "sort_code"
+      ]
+    }
+  ]
 }

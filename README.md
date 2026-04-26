@@ -71,11 +71,16 @@ The initial common schema is deliberately small:
 - assessed_value
 - acreage
 
+## County-specific source notes
+
+- `docs/SPOKANE_COUNTY_WA.md` documents Spokane's thin parcel FeatureServer plus richer ArcGIS Hub downloads for value, property-use, taxpayer, and residential floor data.
+
 ## Public-data stance
 
 - Do not commit downloaded records.
 - Keep source definitions, schemas, and code public.
 - Respect source terms, rate limits, robots policies, and local law.
+- This toolkit downloads and normalizes public parcel records; it does not impose extra use restrictions beyond the source terms and applicable law.
 
 ## Roadmap
 
