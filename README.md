@@ -2,7 +2,7 @@
 
 Developer-first tools for discovering, downloading, and normalizing public county parcel and assessor data.
 
-It normalizes parcel data. If someone's smart, they'll figure out why it's useful.
+It turns inconsistent public parcel data into normalized, developer-friendly files.
 
 ## Project definition
 

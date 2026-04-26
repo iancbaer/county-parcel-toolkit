@@ -190,4 +190,4 @@ The project is working when a developer can:
 
 Developer tools for repeatable public county parcel data exports.
 
-This normalizes parcel data. If someone's smart, they'll figure out why it's useful.
+It turns inconsistent public parcel data into normalized, developer-friendly files.
