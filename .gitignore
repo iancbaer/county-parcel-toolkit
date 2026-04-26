@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.dist/
+dist/
+build/
+*.egg-info/
+.venv/
+venv/
+
+# Local data exports - do not commit parcel/person data
+data/
+exports/
+*.csv
+*.geojson
+*.parquet
+*.gpkg
+*.shp
+*.dbf
+*.shx
+*.prj
+*.zip
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,15 @@
+{
+  "name": "Spokane County, WA parcels",
+  "source_type": "arcgis_feature_server",
+  "url": "https://example.invalid/arcgis/rest/services/Parcels/FeatureServer/0",
+  "field_map": {
+    "parcel_id": ["PARCEL_ID", "PIN", "APN"],
+    "owner": ["OWNER", "OWNER_NAME"],
+    "situs_address": ["SITUS_ADDRESS", "SITE_ADDR", "PROPERTY_ADDRESS"],
+    "mailing_address": ["MAIL_ADDRESS", "MAILING_ADDRESS"],
+    "land_use": ["LAND_USE", "USE_CODE"],
+    "year_built": ["YEAR_BUILT", "YR_BUILT"],
+    "assessed_value": ["ASSESSED_VALUE", "TOTAL_VALUE"],
+    "acreage": ["ACRES", "ACREAGE"]
+  }
+}
