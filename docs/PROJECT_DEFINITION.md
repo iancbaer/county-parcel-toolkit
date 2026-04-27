@@ -19,8 +19,12 @@ The toolkit turns that mess into a repeatable pipeline:
 1. define a public data source
 2. inspect its fields and record count
 3. download records safely in chunks
-4. normalize common parcel/assessor fields
-5. export clean CSV/GeoJSON/Parquet-style files for downstream use
+4. infer how raw tables and fields map to a canonical parcel schema
+5. validate joins, null rates, duplicates, and field confidence with regular code
+6. normalize common parcel/assessor fields
+7. export clean CSV/GeoJSON/Parquet-style files for downstream use
+
+The important product is the mapping layer: reusable knowledge about how a county's messy public tables connect and what each raw field means.
 
 ## Who it is for
 
@@ -38,7 +42,7 @@ Secondary users:
 
 ## Product shape
 
-The toolkit should be usable in two ways.
+The toolkit should be usable in three ways.
 
 ### CLI
 
@@ -65,6 +69,18 @@ layer.export_csv("exports/raw.csv")
 field_map = load_mapping("examples/sources/example_county.json")
 normalize_csv("exports/raw.csv", "exports/normalized.csv", field_map)
 ```
+
+### Agent skill
+
+For conversational, semi-autonomous mapping work:
+
+```text
+Load agent-skill/SKILL.md, discover public county parcel/assessor sources, classify tables, infer join keys, map fields to the canonical schema, validate those guesses with code, and write a reusable source pack plus confidence report.
+```
+
+This is intentionally hybrid. Regular code should do bulk work: downloads, profiling, null/duplicate rates, join validation, deterministic normalization, and regression tests. AI should be used sparingly for the parts that benefit from judgment: interpreting county metadata, classifying weird tables, suggesting likely field meanings, explaining caveats, and making the tool conversational for a non-specialist user.
+
+Every AI-produced mapping should become structured data that code can inspect, validate, diff, and reuse.
 
 ## Core principles
 

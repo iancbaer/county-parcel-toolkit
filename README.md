@@ -6,7 +6,17 @@ It turns inconsistent public parcel data into normalized, developer-friendly fil
 
 ## Project definition
 
-See `docs/PROJECT_DEFINITION.md` for the full product definition, MVP scope, and roadmap.
+See `docs/PROJECT_DEFINITION.md` for the full product definition, MVP scope, and roadmap. See `docs/COUNTY_ONBOARDING_METHOD.md` for the repeatable method for adding a new county and proving clean joins across parcel/address, owner/taxpayer, valuation, building, and sales tables.
+
+## Agent skill
+
+This repo includes `agent-skill/SKILL.md`: a general agent playbook for hybrid AI + deterministic county-data mapping. The intended pattern is:
+
+- code handles repeatable discovery, downloads, schema checks, joins, stats, and exports
+- AI handles sparse judgment: source classification, field/role inference, ambiguous joins, documentation, and conversational use
+- every AI guess is written as a confidence-scored mapping that regular code can validate and reuse
+
+That makes the mapping layer the durable asset, not any one county export.
 
 ## Why
 
@@ -52,11 +62,43 @@ Export attributes to CSV without geometry:
 parceltool arcgis export "https://example.gov/arcgis/rest/services/Parcels/FeatureServer/0" exports/parcels.csv --chunk-size 2000
 ```
 
+Search ArcGIS Online for likely public parcel source candidates:
+
+```bash
+parceltool discover arcgis "Spokane County WA parcel" --limit 10
+```
+
 Normalize a CSV using a source mapping:
 
 ```bash
 parceltool normalize input.csv output.csv --mapping examples/sources/spokane_county_wa.json
 ```
+
+Profile and infer mapping candidates from a raw county CSV:
+
+```bash
+parceltool map profile scratch/wa_test/spokane/raw.csv
+parceltool map infer scratch/wa_test/spokane/raw.csv
+```
+
+Measure whether two county tables really join on a proposed key:
+
+```bash
+parceltool map join parcels.csv value_info.csv --left-key parcel --right-key parcel
+```
+
+Create a clean wide joined file from a base parcel/address table plus enrichment tables:
+
+```bash
+parceltool map merge parcels.csv joined.csv \
+  --base-key parcel \
+  --join taxpayer=taxpayer_info.xlsx:parcel:taxpayer,address_1,address_2,city,state,zip \
+  --join value=value_info.txt:parcel:tax_year,prop_use_desc,mkt_total,taxable_reg
+```
+
+The merge output contains data fields only. Source notices and county metadata stay in source packs/docs, not repeated inside every cleaned row.
+
+These `map` commands are the executable test that the agent skill is more than prose: AI can suggest a mapping, but code must profile fields, score candidates, report join confidence, and produce clean joins in machine-readable form.
 
 ## Normalized fields
 
