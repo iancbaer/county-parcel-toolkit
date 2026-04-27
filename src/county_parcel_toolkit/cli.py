@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 
+from .app import render_home_page, serve, status_payload
 from .arcgis import ArcGISLayer
 from .discovery import discover_arcgis_sources
 from .joiner import EnrichmentJoin, join_enrichments
@@ -29,6 +30,14 @@ def build_parser() -> argparse.ArgumentParser:
     export.add_argument("url")
     export.add_argument("output")
     export.add_argument("--chunk-size", type=int, default=2000)
+
+    app = sub.add_parser("app", help="Local application shell commands")
+    app_sub = app.add_subparsers(dest="app_command", required=True)
+    app_sub.add_parser("status", help="Print application health and capability JSON")
+    app_sub.add_parser("render", help="Render the local app home page HTML")
+    app_serve = app_sub.add_parser("serve", help="Serve the local web application")
+    app_serve.add_argument("--host", default="127.0.0.1")
+    app_serve.add_argument("--port", type=int, default=8765)
 
     normalize = sub.add_parser("normalize", help="Normalize a CSV with a source mapping")
     normalize.add_argument("input")
@@ -101,6 +110,17 @@ def main(argv: list[str] | None = None) -> int:
         if args.arcgis_command == "export":
             rows = layer.export_csv(args.output, chunk_size=args.chunk_size)
             print(f"wrote {rows} rows to {args.output}")
+            return 0
+
+    if args.command == "app":
+        if args.app_command == "status":
+            print(json.dumps(status_payload(), indent=2, sort_keys=True))
+            return 0
+        if args.app_command == "render":
+            print(render_home_page())
+            return 0
+        if args.app_command == "serve":
+            serve(host=args.host, port=args.port)
             return 0
 
     if args.command == "normalize":

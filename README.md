@@ -31,7 +31,7 @@ This toolkit aims to make the boring path repeatable:
 
 ## Current status
 
-Pre-alpha scaffold. The first supported source type is ArcGIS FeatureServer layers.
+Pre-alpha toolkit with an updateable local application shell. The first supported source type is ArcGIS FeatureServer layers.
 
 ## Install for local development
 
@@ -43,6 +43,24 @@ pytest -q
 ```
 
 ## CLI examples
+
+Run the local application shell:
+
+```bash
+parceltool app serve --host 127.0.0.1 --port 8765
+```
+
+Check the app capability API without starting the server:
+
+```bash
+parceltool app status
+```
+
+Render the current HTML shell for inspection or static hosting experiments:
+
+```bash
+parceltool app render > app.html
+```
 
 Count records in an ArcGIS layer:
 
@@ -134,3 +152,5 @@ The initial common schema is deliberately small:
 - Static CSV/zipped shapefile support
 - Geometry export: GeoJSON and Parquet
 - Source discovery helpers
+- Updateable local app shell
+- App workflows for source discovery, export, mapping review, and normalization
